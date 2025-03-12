@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FrioAPI.Communication\FrioAPI.Communication.csproj" />
+  </ItemGroup>
+
 </Project>

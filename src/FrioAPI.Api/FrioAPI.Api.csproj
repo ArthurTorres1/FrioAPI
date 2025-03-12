@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\FrioAPI.Communication\FrioAPI.Communication.csproj" />
     <ProjectReference Include="..\FrioAPI.Exception\FrioAPI.Exception.csproj" />
   </ItemGroup>
 
