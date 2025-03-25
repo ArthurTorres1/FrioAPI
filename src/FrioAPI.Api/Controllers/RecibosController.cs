@@ -1,5 +1,6 @@
 ﻿using FrioAPI.Application.UseCases.Recibos.Register;
 using FrioAPI.Communication.Requests;
+using FrioAPI.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrioAPI.Api.Controllers
@@ -18,9 +19,15 @@ namespace FrioAPI.Api.Controllers
 
                 return Created(string.Empty, response);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
-                
+                var errorResponse = new ResponseErrorJson(ex.Message);
+                return BadRequest(errorResponse); 
+            }
+            catch
+            {
+                var errorResponse = new ResponseErrorJson("erro desconhecido");
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
 
         }

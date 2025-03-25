@@ -2,6 +2,7 @@
 {
     public class ResponseRegisteredReciboJson
     {
-        public string Title { get; set; } = string.Empty;
+        public string Nome { get; set; } = string.Empty;
+        public string Equipamento { get; set; } = string.Empty;
     }
 }
