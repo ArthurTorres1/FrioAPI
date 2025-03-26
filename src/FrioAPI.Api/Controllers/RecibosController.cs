@@ -1,6 +1,7 @@
 ﻿using FrioAPI.Application.UseCases.Recibos.Register;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
+using FrioAPI.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrioAPI.Api.Controllers
@@ -19,9 +20,9 @@ namespace FrioAPI.Api.Controllers
 
                 return Created(string.Empty, response);
             }
-            catch (ArgumentException ex)
+            catch (ErrorOnValidationException ex)
             {
-                var errorResponse = new ResponseErrorJson(ex.Message);
+                var errorResponse = new ResponseErrorJson(ex.Errors);
                 return BadRequest(errorResponse); 
             }
             catch

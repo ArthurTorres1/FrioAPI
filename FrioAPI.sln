@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35521.163 d17.12
+VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FBD06C17-A6ED-4209-B6D1-FF7A136AC523}"
 EndProject
@@ -11,13 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Api", "src\FrioAPI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Application", "src\FrioAPI.Application\FrioAPI.Application.csproj", "{4D7F6609-9699-446F-81EB-73C2C57342CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Exception", "src\FrioAPI.Exception\FrioAPI.Exception.csproj", "{5F1FD5C5-AE09-4E9E-8058-3580077E129D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Communication", "src\FrioAPI.Communication\FrioAPI.Communication.csproj", "{46B1EE8E-A0D5-4510-BD5C-D0C0737E50FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Domain", "src\FrioAPI.Domain\FrioAPI.Domain.csproj", "{A7095DD4-C065-49EF-8EED-63BDC10781E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Infrastructure", "src\FrioAPI.Infrastructure\FrioAPI.Infrastructure.csproj", "{05479726-E673-4347-945A-43261E7ED685}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrioAPI.Exception", "src\FrioAPI.Exception\FrioAPI.Exception.csproj", "{F93A7BE4-5DD2-47DD-844F-FB8C612362EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{4D7F6609-9699-446F-81EB-73C2C57342CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D7F6609-9699-446F-81EB-73C2C57342CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D7F6609-9699-446F-81EB-73C2C57342CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F1FD5C5-AE09-4E9E-8058-3580077E129D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F1FD5C5-AE09-4E9E-8058-3580077E129D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F1FD5C5-AE09-4E9E-8058-3580077E129D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F1FD5C5-AE09-4E9E-8058-3580077E129D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46B1EE8E-A0D5-4510-BD5C-D0C0737E50FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46B1EE8E-A0D5-4510-BD5C-D0C0737E50FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46B1EE8E-A0D5-4510-BD5C-D0C0737E50FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +45,10 @@ Global
 		{05479726-E673-4347-945A-43261E7ED685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05479726-E673-4347-945A-43261E7ED685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05479726-E673-4347-945A-43261E7ED685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F93A7BE4-5DD2-47DD-844F-FB8C612362EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93A7BE4-5DD2-47DD-844F-FB8C612362EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93A7BE4-5DD2-47DD-844F-FB8C612362EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93A7BE4-5DD2-47DD-844F-FB8C612362EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,9 +56,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BAECF526-4B72-4093-8AE8-599D6498519E} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
 		{4D7F6609-9699-446F-81EB-73C2C57342CD} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
-		{5F1FD5C5-AE09-4E9E-8058-3580077E129D} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
 		{46B1EE8E-A0D5-4510-BD5C-D0C0737E50FD} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
 		{A7095DD4-C065-49EF-8EED-63BDC10781E3} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
 		{05479726-E673-4347-945A-43261E7ED685} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
+		{F93A7BE4-5DD2-47DD-844F-FB8C612362EC} = {FBD06C17-A6ED-4209-B6D1-FF7A136AC523}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B22F8FD4-3E9E-4963-B719-CE444F26EDF5}
 	EndGlobalSection
 EndGlobal
