@@ -1,5 +1,7 @@
-﻿using FrioAPI.Communication.Requests;
+﻿using System.Linq;
+using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
+using FrioAPI.Exception.ExceptionsBase;
 
 namespace FrioAPI.Application.UseCases.Recibos.Register
 {
@@ -13,23 +15,15 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
 
         private void Validate(RequestRegisterReciboJson request) 
         {
-            var nome = string.IsNullOrWhiteSpace(request.Nome);
-            if (nome)
-                throw new ArgumentException("");
+            var validator = new RegisterReciboValidator();  
+            var result = validator.Validate(request);
 
-            var equipamento = string.IsNullOrWhiteSpace(request.Equipamento);
-            if (equipamento)
-                throw new ArgumentException("O campo Equipamento é obrigatório.");
-
-            var descricaoServico = string.IsNullOrWhiteSpace(request.DescricaoServico);
-            if(descricaoServico)
-                throw new ArgumentException("O campo Descrição do serviço' é obrigatório.");
-
-            if (request.Total <= 0)
-                throw new ArgumentException("O valor total deve er maior que zero");
-
-            if (request.Data.Year < DateTime.UtcNow.Year)
-                throw new Exception("Data inválida! O ano não pode ser anterior ao atual.");
+            if (result.IsValid == false)
+            {
+                var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();
+                throw new ErrorOnValidationException(errorMessages);
+            }
+            
         }
     }
 }
