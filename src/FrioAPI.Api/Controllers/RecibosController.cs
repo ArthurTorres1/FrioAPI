@@ -13,23 +13,10 @@ namespace FrioAPI.Api.Controllers
         [HttpPost]
         public IActionResult Register([FromBody] RequestRegisterReciboJson request)
         {
-            try
-            {
-                var useCase = new RegisterReciboUseCase();
-                var response = useCase.Execute(request);
+            var useCase = new RegisterReciboUseCase();
+            var response = useCase.Execute(request);
 
-                return Created(string.Empty, response);
-            }
-            catch (ErrorOnValidationException ex)
-            {
-                var errorResponse = new ResponseErrorJson(ex.Errors);
-                return BadRequest(errorResponse); 
-            }
-            catch
-            {
-                var errorResponse = new ResponseErrorJson("erro desconhecido");
-                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
-            }
+            return Created(string.Empty, response);
 
         }
     }
