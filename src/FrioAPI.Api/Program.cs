@@ -1,4 +1,6 @@
 using FrioAPI.Api.Filters;
+using FrioAPI.Application;
+using FrioAPI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
+//Injeção de dependencias
+builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 var app = builder.Build();
  
 if (app.Environment.IsDevelopment())

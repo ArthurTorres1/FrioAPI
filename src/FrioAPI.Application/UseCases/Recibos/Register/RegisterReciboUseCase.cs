@@ -2,14 +2,21 @@
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
 using FrioAPI.Domain.Entities;
+using FrioAPI.Domain.Repositories.Recibos;
 using FrioAPI.Exception.ExceptionsBase;
 
 
 namespace FrioAPI.Application.UseCases.Recibos.Register
 {
-    public class RegisterReciboUseCase
+    public class RegisterReciboUseCase : IRegisterReciboUseCase
     {
-        public ResponseRegisteredReciboJson Execute(RequestRegisterReciboJson request)
+        private readonly IRecibosRepository _recibosRepository;
+
+        public RegisterReciboUseCase(IRecibosRepository repository)
+        {
+            _recibosRepository = repository;
+        }
+        public ResponseRegisteredReciboJson Execute(RequestRegisterReciboJson request) 
         {
             Validate(request);
 
@@ -23,6 +30,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
                 Data = request.Data,
                 Total = request.Total
             };
+            _recibosRepository.Add(entity);
 
             return new ResponseRegisteredReciboJson();
         }

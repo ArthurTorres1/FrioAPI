@@ -8,12 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FrioAPI.Communication\FrioAPI.Communication.csproj" />
+    <ProjectReference Include="..\FrioAPI.Domain\FrioAPI.Domain.csproj" />
     <ProjectReference Include="..\FrioAPI.Exception\FrioAPI.Exception.csproj" />
-    <ProjectReference Include="..\FrioAPI.Infrastructure\FrioAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
