@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FrioAPI.Infrastructure.DataAccess
 {
-    public class FrioApiDBContext : DbContext
+    internal class FrioApiDBContext : DbContext
     {
         public DbSet<Recibo> Recibos { get; set; }
 

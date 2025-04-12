@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FrioAPI.Application\FrioAPI.Application.csproj" />
     <ProjectReference Include="..\FrioAPI.Communication\FrioAPI.Communication.csproj" />
+    <ProjectReference Include="..\FrioAPI.Infrastructure\FrioAPI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
