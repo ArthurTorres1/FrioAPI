@@ -13,7 +13,6 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
         public void Add(Recibo recibo)
         {
             _dbContext.Recibos.Add(recibo);
-            _dbContext.SaveChanges();
         }
     }
 }

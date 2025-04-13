@@ -1,4 +1,5 @@
-﻿using FrioAPI.Domain.Repositories.Recibos;
+﻿using FrioAPI.Domain.Repositories;
+using FrioAPI.Domain.Repositories.Recibos;
 using FrioAPI.Infrastructure.DataAccess;
 using FrioAPI.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace FrioAPI.Infrastructure
         private static void AddRepostories(IServiceCollection services)
         {
             services.AddScoped<IRecibosRepository, RecibosRepository>();
+            services.AddScoped<IUnidadeDeTrabalho, UnidadeDeTrabalho>();
         }
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
