@@ -1,7 +1,5 @@
 ﻿using FrioAPI.Application.UseCases.Recibos.Register;
 using FrioAPI.Communication.Requests;
-using FrioAPI.Communication.Responses;
-using FrioAPI.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrioAPI.Api.Controllers

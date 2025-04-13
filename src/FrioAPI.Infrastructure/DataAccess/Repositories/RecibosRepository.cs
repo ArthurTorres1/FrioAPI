@@ -5,12 +5,15 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
 {
     internal class RecibosRepository : IRecibosRepository
     {
+        private readonly FrioApiDBContext _dbContext;
+        public RecibosRepository(FrioApiDBContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public void Add(Recibo recibo)
         {
-            var dbContext = new FrioApiDBContext();
-
-            dbContext.Recibos.Add(recibo);
-            dbContext.SaveChanges();
+            _dbContext.Recibos.Add(recibo);
+            _dbContext.SaveChanges();
         }
     }
 }

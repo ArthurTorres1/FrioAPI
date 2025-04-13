@@ -9,7 +9,7 @@ namespace FrioAPI.Infrastructure.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=localhost;DataBase=friodb;Uid=root;Pwd=@password123;";
+            var connectionString = "Server=localhost;DataBase=friodb;Uid=root;Pwd=12345;";
 
             var version = new Version(8, 0, 41);
             var serverVersion = new MySqlServerVersion(version);
