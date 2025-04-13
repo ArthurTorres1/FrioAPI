@@ -1,24 +1,32 @@
 ﻿using FrioAPI.Domain.Repositories.Recibos;
 using FrioAPI.Infrastructure.DataAccess;
 using FrioAPI.Infrastructure.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FrioAPI.Infrastructure
 {
     public static class DepedencyInjectionExtension
     {
-        public static void AddInfrastructure(this IServiceCollection services)
+        public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             AddRepostories(services);
-            AddDbContext(services);
+            AddDbContext(services, configuration);
         }
+
         private static void AddRepostories(IServiceCollection services)
         {
             services.AddScoped<IRecibosRepository, RecibosRepository>();
         }
-        private static void AddDbContext(IServiceCollection services)
+        private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<FrioApiDBContext>();
+            var connectionString = configuration.GetConnectionString("Connection-dev");
+
+            var version = new Version(8, 0, 41);
+            var serverVersion = new MySqlServerVersion(version);
+
+            services.AddDbContext<FrioApiDBContext>(config => config.UseMySql(connectionString, serverVersion));
         }
 
     }
