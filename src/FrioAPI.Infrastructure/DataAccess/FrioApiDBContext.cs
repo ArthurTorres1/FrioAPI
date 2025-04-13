@@ -5,16 +5,8 @@ namespace FrioAPI.Infrastructure.DataAccess
 {
     internal class FrioApiDBContext : DbContext
     {
+        public FrioApiDBContext(DbContextOptions options) : base(options) { }
         public DbSet<Recibo> Recibos { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionString = "Server=localhost;DataBase=friodb;Uid=root;Pwd=12345;";
-
-            var version = new Version(8, 0, 41);
-            var serverVersion = new MySqlServerVersion(version);
-
-            optionsBuilder.UseMySql(connectionString, serverVersion);
-        }
     }
 }
