@@ -2,6 +2,6 @@
 {
     public interface IUnidadeDeTrabalho
     {
-        void Commit();
+        Task Commit();
     }
 }

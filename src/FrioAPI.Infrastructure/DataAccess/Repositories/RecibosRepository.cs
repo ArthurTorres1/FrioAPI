@@ -10,9 +10,9 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
         {
             _dbContext = dbContext;
         }
-        public void Add(Recibo recibo)
+        public async Task Add(Recibo recibo)
         {
-            _dbContext.Recibos.Add(recibo);
+            await _dbContext.Recibos.AddAsync(recibo);
         }
     }
 }
