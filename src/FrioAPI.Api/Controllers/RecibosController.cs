@@ -9,11 +9,11 @@ namespace FrioAPI.Api.Controllers
     public class RecibosController : ControllerBase
     {
         [HttpPost]
-        public IActionResult Register(
+        public async Task<IActionResult> Register(
             [FromServices] IRegisterReciboUseCase useCase,
             [FromBody] RequestRegisterReciboJson request)
         {
-            var response = useCase.Execute(request);
+            var response = await useCase.Execute(request);
 
             return Created(string.Empty, response);
 

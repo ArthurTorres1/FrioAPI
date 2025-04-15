@@ -18,7 +18,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
             _recibosRepository = repository;
             _unidadeDeTrabalho = unidadeDeTrabalho;
         }
-        public ResponseRegisteredReciboJson Execute(RequestRegisterReciboJson request) 
+        public async Task<ResponseRegisteredReciboJson> Execute(RequestRegisterReciboJson request) 
         {
             Validate(request);
 
@@ -32,8 +32,8 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
                 Data = request.Data,
                 Total = request.Total
             };
-            _recibosRepository.Add(entity);
-            _unidadeDeTrabalho.Commit();
+            await _recibosRepository.Add(entity);
+            await _unidadeDeTrabalho.Commit();
 
             return new ResponseRegisteredReciboJson();
         }

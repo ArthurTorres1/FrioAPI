@@ -14,6 +14,6 @@ namespace FrioAPI.Infrastructure.DataAccess
         {
             _dbContext = dBContext;
         }
-        public void Commit() => _dbContext.SaveChanges(); 
+        public async Task Commit() => await _dbContext.SaveChangesAsync(); 
     }
 }
