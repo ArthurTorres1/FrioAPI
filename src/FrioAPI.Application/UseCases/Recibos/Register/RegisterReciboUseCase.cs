@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
 using FrioAPI.Domain.Entities;
@@ -13,29 +14,28 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
     {
         private readonly IRecibosRepository _recibosRepository;
         private readonly IUnidadeDeTrabalho _unidadeDeTrabalho;
-        public RegisterReciboUseCase(IRecibosRepository repository,IUnidadeDeTrabalho unidadeDeTrabalho)
+        private readonly IMapper _mapper;
+
+        public RegisterReciboUseCase(
+            IRecibosRepository repository,
+            IUnidadeDeTrabalho unidadeDeTrabalho,
+            IMapper mapper
+            )
         {
             _recibosRepository = repository;
             _unidadeDeTrabalho = unidadeDeTrabalho;
+            _mapper = mapper;
         }
         public async Task<ResponseRegisteredReciboJson> Execute(RequestRegisterReciboJson request) 
         {
             Validate(request);
 
-            var entity = new Recibo
-            {
-                NomeCliente = request.NomeCliente,
-                Equipamento = request.Equipamento,
-                DescricaoServico = request.DescricaoServico,
-                Cidade = request.Cidade,
-                UF = request.UF,
-                Data = request.Data,
-                Total = request.Total
-            };
+            var entity = _mapper.Map<Recibo>(request);
+            //salvando no banco de dados
             await _recibosRepository.Add(entity);
             await _unidadeDeTrabalho.Commit();
 
-            return new ResponseRegisteredReciboJson();
+            return _mapper.Map<ResponseRegisteredReciboJson>(entity);
         }
 
         private void Validate(RequestRegisterReciboJson request) 
