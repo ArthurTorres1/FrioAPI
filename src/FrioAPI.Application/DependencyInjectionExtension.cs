@@ -1,5 +1,6 @@
 ﻿using FrioAPI.Application.AutoMapper;
 using FrioAPI.Application.UseCases.Recibos.GetAll;
+using FrioAPI.Application.UseCases.Recibos.GetById;
 using FrioAPI.Application.UseCases.Recibos.Register;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,7 @@ namespace FrioAPI.Application
         {
             services.AddScoped<IRegisterReciboUseCase, RegisterReciboUseCase>();
             services.AddScoped<IGetAllReciboUseCase, GetAllReciboUseCase>();
+            services.AddScoped<IGetReciboByIdUseCase, GetReciboByIdUseCase>();
         }
     }
 }

@@ -124,6 +124,15 @@ namespace FrioAPI.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recibo náo encontrado..
+        /// </summary>
+        public static string RECIBO_NAO_ENCONTRADO {
+            get {
+                return ResourceManager.GetString("RECIBO_NAO_ENCONTRADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O valor deve ser maior que zero.
         /// </summary>
         public static string TOTAL_MAIOR_QUE_ZERO {

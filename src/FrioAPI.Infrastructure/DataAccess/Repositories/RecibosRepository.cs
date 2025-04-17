@@ -19,7 +19,12 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
         public async Task<List<Recibo>> GetAll()
         {
             //select
-            return await _dbContext.Recibos.ToListAsync();
+            return await _dbContext.Recibos.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Recibo?> GetById(long id)
+        {
+            return await _dbContext.Recibos.AsNoTracking().FirstOrDefaultAsync(recibo => recibo.Id == id);
         }
     }
 }

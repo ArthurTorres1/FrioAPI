@@ -138,6 +138,9 @@
   <data name="NOME_CLIENTE_OBRIGATORIO" xml:space="preserve">
     <value>O campo (Nome do cliente) é obrigatório.</value>
   </data>
+  <data name="RECIBO_NAO_ENCONTRADO" xml:space="preserve">
+    <value>Recibo náo encontrado.</value>
+  </data>
   <data name="TOTAL_MAIOR_QUE_ZERO" xml:space="preserve">
     <value>O valor deve ser maior que zero</value>
   </data>

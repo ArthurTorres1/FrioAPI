@@ -6,5 +6,6 @@ namespace FrioAPI.Domain.Repositories.Recibos
     {
         Task Add(Recibo recibo);
         Task<List<Recibo>> GetAll();
+        Task<Recibo?> GetById(long id);
     }
 }
