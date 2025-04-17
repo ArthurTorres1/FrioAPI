@@ -20,6 +20,7 @@ namespace FrioAPI.Application.AutoMapper
         private void EntityToResponse()
         {
             CreateMap<Recibo, ResponseRegisteredReciboJson>();
+            CreateMap<Recibo, ResponseShortReciboJson>();
         }
     }
 }
