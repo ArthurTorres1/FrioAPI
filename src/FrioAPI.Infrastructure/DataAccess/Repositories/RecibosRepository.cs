@@ -1,5 +1,6 @@
 ﻿using FrioAPI.Domain.Entities;
 using FrioAPI.Domain.Repositories.Recibos;
+using Microsoft.EntityFrameworkCore;
 
 namespace FrioAPI.Infrastructure.DataAccess.Repositories
 {
@@ -13,6 +14,12 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
         public async Task Add(Recibo recibo)
         {
             await _dbContext.Recibos.AddAsync(recibo);
+        }
+
+        public async Task<List<Recibo>> GetAll()
+        {
+            //select
+            return await _dbContext.Recibos.ToListAsync();
         }
     }
 }
