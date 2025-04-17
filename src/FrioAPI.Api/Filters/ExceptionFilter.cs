@@ -22,19 +22,25 @@ namespace FrioAPI.Api.Filters
 
         private void HandleProjectException(ExceptionContext context) 
         {
-            if(context.Exception is ErrorOnValidationException)
+            if (context.Exception is ErrorOnValidationException errorOnValidationException)
             {
-                var ex = (ErrorOnValidationException)context.Exception;
-                var errorResponse = new ResponseErrorJson(ex.Errors);
+                var errorResponse = new ResponseErrorJson(errorOnValidationException.Errors);
 
                 context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
                 context.Result = new BadRequestObjectResult(errorResponse);
+            }
+            else if(context.Exception is NotFoundException notfoundException)
+            {
+                var errorResponse = new ResponseErrorJson(notfoundException.Message);
+
+                context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                context.Result = new NotFoundObjectResult(errorResponse);
             }
             else
             {
                 ThrowUnknowError(context);
             }
-               
+
         }
         private void ThrowUnknowError(ExceptionContext context)
         {

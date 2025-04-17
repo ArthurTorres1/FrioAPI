@@ -1,4 +1,5 @@
 ﻿using FrioAPI.Application.UseCases.Recibos.GetAll;
+using FrioAPI.Application.UseCases.Recibos.GetById;
 using FrioAPI.Application.UseCases.Recibos.Register;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
@@ -34,6 +35,19 @@ namespace FrioAPI.Api.Controllers
                 return Ok(response);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        [ProducesResponseType(typeof(ResponseRecibosJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetReciboById(
+            [FromServices] IGetReciboByIdUseCase useCase,
+            [FromRoute] long id)
+        {
+            var response = await useCase.Execute(id);
+
+            return Ok(response);
         }
 
     }

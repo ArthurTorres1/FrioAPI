@@ -21,6 +21,7 @@ namespace FrioAPI.Application.AutoMapper
         {
             CreateMap<Recibo, ResponseRegisteredReciboJson>();
             CreateMap<Recibo, ResponseShortReciboJson>();
+            CreateMap<Recibo, ResponseReciboJson>();
         }
     }
 }
