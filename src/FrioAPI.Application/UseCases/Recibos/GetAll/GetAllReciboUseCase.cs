@@ -6,10 +6,10 @@ namespace FrioAPI.Application.UseCases.Recibos.GetAll
 {
     public class GetAllReciboUseCase : IGetAllReciboUseCase
     {
-        private readonly IRecibosRepository _recibosRepository;
+        private readonly IRecibosReadOnlyRepository _recibosRepository;
         private readonly IMapper _mapper;
         public GetAllReciboUseCase(
-            IRecibosRepository recibosRepository,
+            IRecibosReadOnlyRepository recibosRepository,
             IMapper mapper)
         {
             _recibosRepository = recibosRepository;
