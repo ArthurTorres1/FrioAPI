@@ -8,11 +8,11 @@ namespace FrioAPI.Application.UseCases.Recibos.GetById
 {
     public class GetReciboByIdUseCase : IGetReciboByIdUseCase
     {
-        private readonly IRecibosRepository _recibosRepository;
+        private readonly IRecibosReadOnlyRepository _recibosRepository;
         private readonly IMapper _mapper;
 
         public GetReciboByIdUseCase(
-            IRecibosRepository reciposRepository,
+            IRecibosReadOnlyRepository reciposRepository,
             IMapper mapper)
         {
             _recibosRepository = reciposRepository;

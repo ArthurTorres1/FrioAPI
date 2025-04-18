@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FrioAPI.Infrastructure.DataAccess.Repositories
 {
-    internal class RecibosRepository : IRecibosRepository
+    internal class RecibosRepository : IRecibosReadOnlyRepository, IRecibosWriteOnlyRepository
     {
         private readonly FrioApiDBContext _dbContext;
         public RecibosRepository(FrioApiDBContext dbContext)

@@ -2,10 +2,8 @@
 
 namespace FrioAPI.Domain.Repositories.Recibos
 {
-    public interface IRecibosRepository
+    public interface IRecibosWriteOnlyRepository
     {
         Task Add(Recibo recibo);
-        Task<List<Recibo>> GetAll();
-        Task<Recibo?> GetById(long id);
     }
 }

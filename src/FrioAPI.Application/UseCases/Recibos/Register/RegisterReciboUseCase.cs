@@ -12,12 +12,12 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
 {
     public class RegisterReciboUseCase : IRegisterReciboUseCase
     {
-        private readonly IRecibosRepository _recibosRepository;
+        private readonly IRecibosWriteOnlyRepository _recibosRepository;
         private readonly IUnidadeDeTrabalho _unidadeDeTrabalho;
         private readonly IMapper _mapper;
 
         public RegisterReciboUseCase(
-            IRecibosRepository repository,
+            IRecibosWriteOnlyRepository repository,
             IUnidadeDeTrabalho unidadeDeTrabalho,
             IMapper mapper
             )
