@@ -46,5 +46,20 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
         {
             _dbContext.Recibos.Update(recibo);
         }
+
+        public async Task<List<Recibo>> FilterByMonth(DateOnly data)
+        {
+            var startDate = new DateTime(year: data.Year, month: data.Month, day: 1).Date;
+
+            var diasNoMes = DateTime.DaysInMonth(year:data.Year, month: data.Month);
+            var endDate = new DateTime(year: data.Year, month: data.Month, day: diasNoMes, hour: 23, minute: 59, second: 59);
+            return await _dbContext
+                .Recibos
+                .AsNoTracking()
+                .Where(recibo => recibo.Data >= startDate && recibo.Data <= endDate)
+                .OrderBy(recibo => recibo.Data)
+                .ThenBy(recibo => recibo.NomeCliente)
+                .ToListAsync();
+        }
     }
 }
