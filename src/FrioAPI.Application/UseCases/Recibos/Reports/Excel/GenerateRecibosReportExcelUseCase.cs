@@ -1,12 +1,20 @@
 ﻿using ClosedXML.Excel;
 using FrioAPI.Domain.Reports;
+using FrioAPI.Domain.Repositories.Recibos;
 
 namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
 {
     public class GenerateRecibosReportExcelUseCase : IGenerateRecibosReportExcelUseCase
     {
+        private readonly IRecibosReadOnlyRepository _repository;
+        public GenerateRecibosReportExcelUseCase(IRecibosReadOnlyRepository repository)
+        {
+            _repository = repository;   
+        }
         public async Task<byte[]> Execute(DateOnly mes)
         {
+            var recibos = await _repository.FilterByMonth(mes);
+
             var pastaDeTrabalho = new XLWorkbook();
 
             pastaDeTrabalho.Author = "Assisência técnica especializada";
