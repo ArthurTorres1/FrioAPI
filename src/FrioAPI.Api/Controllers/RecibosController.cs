@@ -1,4 +1,5 @@
-﻿using FrioAPI.Application.UseCases.Recibos.GetAll;
+﻿using FrioAPI.Application.UseCases.Recibos.Delete;
+using FrioAPI.Application.UseCases.Recibos.GetAll;
 using FrioAPI.Application.UseCases.Recibos.GetById;
 using FrioAPI.Application.UseCases.Recibos.Register;
 using FrioAPI.Communication.Requests;
@@ -49,6 +50,19 @@ namespace FrioAPI.Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteRecibo(
+            [FromServices] IDeleteReciboUseCase useCase,
+            [FromRoute] long id)
+        {
+            await useCase.Execute(id);
+            return NoContent();
+        }
+
 
     }
 }
