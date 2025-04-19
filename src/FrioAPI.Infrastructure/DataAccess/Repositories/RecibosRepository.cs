@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FrioAPI.Infrastructure.DataAccess.Repositories
 {
-    internal class RecibosRepository : IRecibosReadOnlyRepository, IRecibosWriteOnlyRepository
+    internal class RecibosRepository : IRecibosReadOnlyRepository, IRecibosWriteOnlyRepository, IRecibosUpdateOnlyRepository
     {
         private readonly FrioApiDBContext _dbContext;
         public RecibosRepository(FrioApiDBContext dbContext)
@@ -31,10 +31,20 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
             //select
             return await _dbContext.Recibos.AsNoTracking().ToListAsync();
         }
-
-        public async Task<Recibo?> GetById(long id)
+        //só é chamado pela interface de leitura
+        async Task<Recibo?> IRecibosReadOnlyRepository.GetById(long id)
         {
             return await _dbContext.Recibos.AsNoTracking().FirstOrDefaultAsync(recibo => recibo.Id == id);
+        }
+
+        async Task<Recibo?> IRecibosUpdateOnlyRepository.GetById(long id)
+        {
+            return await _dbContext.Recibos.FirstOrDefaultAsync(recibo => recibo.Id == id);
+        }
+
+        public void Update(Recibo recibo)
+        {
+            _dbContext.Recibos.Update(recibo);
         }
     }
 }

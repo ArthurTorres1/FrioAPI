@@ -2,11 +2,11 @@
 using FrioAPI.Communication.Requests;
 using FrioAPI.Exception;
 
-namespace FrioAPI.Application.UseCases.Recibos.Register
+namespace FrioAPI.Application.UseCases.Recibos
 {
-    public class RegisterReciboValidator : AbstractValidator<RequestRegisterReciboJson>
+    public class ReciboValidator : AbstractValidator<RequestReciboJson>
     {
-        public RegisterReciboValidator() 
+        public ReciboValidator()
         {
             RuleFor(recibo => recibo.NomeCliente).NotEmpty().WithMessage(ResourceErrorMessages.NOME_CLIENTE_OBRIGATORIO);
             RuleFor(recibo => recibo.Equipamento).NotEmpty().WithMessage(ResourceErrorMessages.EQUIPAMENTO_OBRIGATORIO);

@@ -20,6 +20,7 @@ namespace FrioAPI.Infrastructure
         {
             services.AddScoped<IRecibosReadOnlyRepository, RecibosRepository>();
             services.AddScoped<IRecibosWriteOnlyRepository, RecibosRepository>();
+            services.AddScoped<IRecibosUpdateOnlyRepository, RecibosRepository>();
             services.AddScoped<IUnidadeDeTrabalho, UnidadeDeTrabalho>();
         }
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)

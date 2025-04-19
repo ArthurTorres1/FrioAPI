@@ -26,7 +26,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
             _unidadeDeTrabalho = unidadeDeTrabalho;
             _mapper = mapper;
         }
-        public async Task<ResponseRegisteredReciboJson> Execute(RequestRegisterReciboJson request) 
+        public async Task<ResponseRegisteredReciboJson> Execute(RequestReciboJson request) 
         {
             Validate(request);
 
@@ -38,9 +38,9 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
             return _mapper.Map<ResponseRegisteredReciboJson>(entity);
         }
 
-        private void Validate(RequestRegisterReciboJson request) 
+        private void Validate(RequestReciboJson request) 
         {
-            var validator = new RegisterReciboValidator();  
+            var validator = new ReciboValidator();  
             var result = validator.Validate(request);
 
             if (result.IsValid == false)

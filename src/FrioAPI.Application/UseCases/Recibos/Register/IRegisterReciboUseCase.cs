@@ -5,6 +5,6 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
 {
     public interface IRegisterReciboUseCase
     {
-        Task<ResponseRegisteredReciboJson> Execute(RequestRegisterReciboJson request);
+        Task<ResponseRegisteredReciboJson> Execute(RequestReciboJson request);
     }
 }
