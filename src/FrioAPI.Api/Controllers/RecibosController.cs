@@ -2,6 +2,7 @@
 using FrioAPI.Application.UseCases.Recibos.GetAll;
 using FrioAPI.Application.UseCases.Recibos.GetById;
 using FrioAPI.Application.UseCases.Recibos.Register;
+using FrioAPI.Application.UseCases.Recibos.Update;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace FrioAPI.Api.Controllers
         [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(
             [FromServices] IRegisterReciboUseCase useCase,
-            [FromBody] RequestRegisterReciboJson request)
+            [FromBody] RequestReciboJson request)
         {
             var response = await useCase.Execute(request);
 
@@ -49,6 +50,20 @@ namespace FrioAPI.Api.Controllers
             var response = await useCase.Execute(id);
 
             return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateRecibo(
+            [FromServices] IUpdateReciboUseCase useCase,
+            [FromRoute] long id,
+            [FromBody] RequestReciboJson request)
+        {
+            await useCase.Execute(id, request);
+            return NoContent();
         }
 
         [HttpDelete]

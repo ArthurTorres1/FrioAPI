@@ -15,7 +15,7 @@ namespace FrioAPI.Application.AutoMapper
 
         private void RequestToEntity()
         {
-            CreateMap<RequestRegisterReciboJson, Recibo>();
+            CreateMap<RequestReciboJson, Recibo>();
         }
         private void EntityToResponse()
         {

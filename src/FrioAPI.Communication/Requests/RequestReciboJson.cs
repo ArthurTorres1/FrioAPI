@@ -1,6 +1,6 @@
 ﻿namespace FrioAPI.Communication.Requests
 {
-    public class RequestRegisterReciboJson
+    public class RequestReciboJson
     {
         public string NomeCliente {  get; set; } = string.Empty;
         public string Equipamento { get; set; } = string.Empty; 

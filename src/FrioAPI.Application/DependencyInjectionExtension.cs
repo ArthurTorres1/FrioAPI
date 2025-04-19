@@ -3,6 +3,7 @@ using FrioAPI.Application.UseCases.Recibos.Delete;
 using FrioAPI.Application.UseCases.Recibos.GetAll;
 using FrioAPI.Application.UseCases.Recibos.GetById;
 using FrioAPI.Application.UseCases.Recibos.Register;
+using FrioAPI.Application.UseCases.Recibos.Update;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FrioAPI.Application
@@ -25,6 +26,7 @@ namespace FrioAPI.Application
             services.AddScoped<IRegisterReciboUseCase, RegisterReciboUseCase>();
             services.AddScoped<IGetAllReciboUseCase, GetAllReciboUseCase>();
             services.AddScoped<IGetReciboByIdUseCase, GetReciboByIdUseCase>();
+            services.AddScoped<IUpdateReciboUseCase, UpdateReciboUseCase>();
             services.AddScoped<IDeleteReciboUseCase, DeleteReciboUseCase>();
         }
     }
