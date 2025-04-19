@@ -16,6 +16,16 @@ namespace FrioAPI.Infrastructure.DataAccess.Repositories
             await _dbContext.Recibos.AddAsync(recibo);
         }
 
+        public async Task<bool> Delete(long id)
+        {
+           var result = await _dbContext.Recibos.FirstOrDefaultAsync(recibo => recibo.Id == id);
+           if(result is null)
+                return false;
+
+           _dbContext.Recibos.Remove(result);
+            return true;
+        }
+
         public async Task<List<Recibo>> GetAll()
         {
             //select
