@@ -6,6 +6,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
 {
     public class GenerateRecibosReportExcelUseCase : IGenerateRecibosReportExcelUseCase
     {
+        private const string SIMBOLO_MOEDA = "R$";
         private readonly IRecibosReadOnlyRepository _repository;
         public GenerateRecibosReportExcelUseCase(IRecibosReadOnlyRepository repository)
         {
@@ -17,7 +18,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
             if(recibos.Count == 0)
                 return [];
 
-            var pastaDeTrabalho = new XLWorkbook();
+            using var pastaDeTrabalho = new XLWorkbook();
 
             pastaDeTrabalho.Author = "Assisência técnica especializada";
             pastaDeTrabalho.Style.Font.FontSize = 12;
@@ -37,10 +38,16 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
                 planilha.Cell($"D{linha}").Value = recibo.UF;
                 planilha.Cell($"E{linha}").Value = recibo.Cidade;
                 planilha.Cell($"F{linha}").Value = recibo.Data;
+
                 planilha.Cell($"G{linha}").Value = recibo.Total;
+                planilha.Cell($"G{linha}").Style.NumberFormat.Format = $"{SIMBOLO_MOEDA} #,##0.00";
 
                 linha++;
             }
+
+            planilha.Columns().AdjustToContents();
+            //ajustando largura da coluna de data pois o adjust nn esta funcionando para ela
+            planilha.Column("F").Width = 20;
 
             var file = new MemoryStream();
             pastaDeTrabalho.SaveAs(file);
