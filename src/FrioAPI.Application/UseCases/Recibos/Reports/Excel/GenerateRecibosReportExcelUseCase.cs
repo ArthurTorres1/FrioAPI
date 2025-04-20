@@ -14,6 +14,8 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
         public async Task<byte[]> Execute(DateOnly mes)
         {
             var recibos = await _repository.FilterByMonth(mes);
+            if(recibos.Count == 0)
+                return [];
 
             var pastaDeTrabalho = new XLWorkbook();
 
@@ -25,6 +27,20 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Excel
             var planilha = pastaDeTrabalho.Worksheets.Add(mes.ToString("Y"));
 
             InsertHeader(planilha);
+
+            var linha = 2;
+            foreach(var recibo in recibos)
+            {
+                planilha.Cell($"A{linha}").Value = recibo.NomeCliente;
+                planilha.Cell($"B{linha}").Value = recibo.Equipamento;
+                planilha.Cell($"C{linha}").Value = recibo.DescricaoServico;
+                planilha.Cell($"D{linha}").Value = recibo.UF;
+                planilha.Cell($"E{linha}").Value = recibo.Cidade;
+                planilha.Cell($"F{linha}").Value = recibo.Data;
+                planilha.Cell($"G{linha}").Value = recibo.Total;
+
+                linha++;
+            }
 
             var file = new MemoryStream();
             pastaDeTrabalho.SaveAs(file);
