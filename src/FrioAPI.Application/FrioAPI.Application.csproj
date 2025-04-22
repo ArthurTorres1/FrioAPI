@@ -7,10 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="UseCases\Recibos\Reports\Pdf\Fonts\Raleway-Black.ttf" />
+    <None Remove="UseCases\Recibos\Reports\Pdf\Fonts\Raleway-Regular.ttf" />
+    <None Remove="UseCases\Recibos\Reports\Pdf\Fonts\WorkSans-Black.ttf" />
+    <None Remove="UseCases\Recibos\Reports\Pdf\Fonts\WorkSans-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="UseCases\Recibos\Reports\Pdf\Fonts\Raleway-Black.ttf" />
+    <EmbeddedResource Include="UseCases\Recibos\Reports\Pdf\Fonts\Raleway-Regular.ttf" />
+    <EmbeddedResource Include="UseCases\Recibos\Reports\Pdf\Fonts\WorkSans-Black.ttf" />
+    <EmbeddedResource Include="UseCases\Recibos\Reports\Pdf\Fonts\WorkSans-Regular.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="ClosedXML" Version="0.104.2" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
+    <PackageReference Include="PDFsharp-MigraDoc" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
