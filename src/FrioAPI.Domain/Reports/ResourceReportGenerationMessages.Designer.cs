@@ -106,6 +106,15 @@ namespace FrioAPI.Domain.Reports {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recibos para.
+        /// </summary>
+        public static string RECIBOS_PARA {
+            get {
+                return ResourceManager.GetString("RECIBOS_PARA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string TOTAL {

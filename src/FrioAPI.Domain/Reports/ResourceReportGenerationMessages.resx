@@ -132,6 +132,9 @@
   <data name="NOME_CLIENTE" xml:space="preserve">
     <value>Nome do cliente</value>
   </data>
+  <data name="RECIBOS_PARA" xml:space="preserve">
+    <value>Recibos para</value>
+  </data>
   <data name="TOTAL" xml:space="preserve">
     <value>Total</value>
   </data>
