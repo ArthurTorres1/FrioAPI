@@ -20,7 +20,7 @@ namespace FrioAPI.Api.Controllers
             byte[] arquivo = await useCase.Execute(mes);
 
             if(arquivo.Length > 0 )
-                return File(arquivo, MediaTypeNames.Application.Octet, $"recibos-{mes:MMMM}.xlsx");
+                return File(arquivo, MediaTypeNames.Application.Octet, $"recibos-{mes:Y}.xlsx");
 
             return NoContent();
         }
@@ -35,7 +35,7 @@ namespace FrioAPI.Api.Controllers
             byte[] arquivo = await useCase.Execute(mes);
 
             if (arquivo.Length > 0)
-                return File(arquivo, MediaTypeNames.Application.Pdf, $"recibos-{mes:MMMM}.pdf");
+                return File(arquivo, MediaTypeNames.Application.Pdf, $"recibos-{mes:Y}.pdf");
 
             return NoContent();
         }
