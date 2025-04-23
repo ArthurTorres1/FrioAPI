@@ -1,7 +1,5 @@
-﻿
-using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Colors;
+﻿using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Colors;
 using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Fonts;
-using FrioAPI.Domain.Entities;
 using FrioAPI.Domain.Reports;
 using FrioAPI.Domain.Repositories.Recibos;
 using MigraDoc.DocumentObjectModel;
@@ -15,14 +13,15 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
     public class GenerateRecibosReportPdfUseCase : IGenerateRecibosReportPdfUseCase
     {
         private const string SIMBOLO_MOEDA = "R$";
+        private const int HEIGHT_ROW_TABLE_RECIBOS = 25;
         private readonly IRecibosReadOnlyRepository _repository;
         public GenerateRecibosReportPdfUseCase(IRecibosReadOnlyRepository repository)
         {
             _repository = repository;
             GlobalFontSettings.FontResolver = new RecibosReportFontResolver();
-        } 
+        }
 
-        public async Task<byte[]> Execute(DateOnly mes)
+        public async Task<byte[]> RelatorioMensalRecibosPdf(DateOnly mes)
         {
             var recibos = await _repository.FilterByMonth(mes);
             if (recibos.Count == 0)
@@ -31,35 +30,45 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
             var document = CreateDocument(mes);
             var page = CreatePage(document);
 
-            CreateHeaderWithProfileAndName(page);
+            CreateCabecalhoComFotoENome(page);
 
             var totalRecibosMensal = recibos.Sum(recibo => recibo.Total);
             CreateTotalRecibos(page, mes, totalRecibosMensal);
 
-            foreach(var recibo in recibos)
+            foreach (var recibo in recibos)
             {
                 var table = CreateRecibosTable(page);
 
                 var row = table.AddRow();
-                row.Height = 25;
-                row.Cells[0].AddParagraph(recibo.NomeCliente);
-                row.Cells[0].Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.BLACK };
-                row.Cells[0].Shading.Color = ColorsHelper.ORANGE_LIGHT;
-                row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
-                row.Cells[0].MergeRight = 2;
-                row.Cells[0].Format.LeftIndent = 20;
-
-                row.Cells[3].AddParagraph(ResourceReportGenerationMessages.TOTAL);
-                row.Cells[3].Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.WHITE };
-                row.Cells[3].Shading.Color = ColorsHelper.ORANGE_DARK;
-                row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
+                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+                AddNomeClienteRecibo(row.Cells[0], recibo.NomeCliente);
+                AddCabecalhoParaTotal(row.Cells[3]);
 
                 row = table.AddRow();
-                row.Height = 30;
-                row.Borders.Visible = false;
+                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+
+                row.Cells[0].AddParagraph($"{recibo.Data:ddd dd MMM yyyy}");
+                EstiloBaseParaInformacoesRecibo(row.Cells[0]);
+                row.Cells[0].Format.LeftIndent = 10;
+
+                row.Cells[1].AddParagraph($"{recibo.Data:t}");
+                EstiloBaseParaInformacoesRecibo(row.Cells[1]);
+
+                row.Cells[2].AddParagraph(recibo.Equipamento);
+                EstiloBaseParaInformacoesRecibo(row.Cells[2]);
+
+                AddValorTotalRecibo(row.Cells[3], recibo.Total);
+
+                row = table.AddRow();
+                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+                EstiloBaseParaDescricaoEEndereco(row.Cells[0], "Endereço: ", $"{recibo.Bairro}, {recibo.Logradouro} - {recibo.Cidade}-{recibo.UF}");
+
+                row = table.AddRow();
+                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+                EstiloBaseParaDescricaoEEndereco(row.Cells[0], "Descrição: ", recibo.DescricaoServico);
+
+                AddEspacoEmBranco(table);
             }
-
-
             return RenderDocuments(document);
         }
 
@@ -87,7 +96,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
 
             return pagina;
         }
-        private void CreateHeaderWithProfileAndName(Section page)
+        private void CreateCabecalhoComFotoENome(Section page)
         {
             var table = page.AddTable();
             table.AddColumn();
@@ -120,11 +129,63 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
         private Table CreateRecibosTable(Section page)
         {
             var table = page.AddTable();
-            table.AddColumn("195").Format.Alignment = ParagraphAlignment.Left;
-            table.AddColumn("80").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn("175").Format.Alignment = ParagraphAlignment.Left;
+            table.AddColumn("95").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn("120").Format.Alignment = ParagraphAlignment.Center;
             table.AddColumn("120").Format.Alignment = ParagraphAlignment.Right;
             return table;
+        }
+        private void AddNomeClienteRecibo(Cell cell, string nomeCliente)
+        {
+            cell.AddParagraph(nomeCliente);
+            cell.Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.BLACK };
+            cell.Shading.Color = ColorsHelper.ORANGE_LIGHT;
+            cell.VerticalAlignment = VerticalAlignment.Center;
+            cell.MergeRight = 2;
+            cell.Format.LeftIndent = 10;
+        }
+        private void AddCabecalhoParaTotal(Cell cell)
+        {
+            cell.AddParagraph(ResourceReportGenerationMessages.TOTAL);
+            cell.Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.WHITE };
+            cell.Shading.Color = ColorsHelper.ORANGE_DARK;
+            cell.VerticalAlignment = VerticalAlignment.Center;
+        }
+        private void EstiloBaseParaInformacoesRecibo(Cell cell)
+        {
+            cell.Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 12, Color = ColorsHelper.BLACK };
+            cell.Shading.Color = ColorsHelper.BLUE_DARK;
+            cell.VerticalAlignment = VerticalAlignment.Center;
+        }
+        private void EstiloBaseParaDescricaoEEndereco(Cell cell, string textoNegrito, string txtRegular)
+        {
+            var paragraph = cell.AddParagraph();
+            if (!textoNegrito.IsValueNullOrEmpty())
+            {
+                var txtSubtituloNegrito = paragraph.AddFormattedText(textoNegrito);
+                txtSubtituloNegrito.Font = new Font { Name = FontHelper.WORKSANS_BLACK, Size = 12 };   
+            }
+
+            paragraph.AddText(txtRegular);
+
+            cell.Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 12, Color = ColorsHelper.BLACK };
+            cell.Shading.Color = ColorsHelper.BLUE_LIGHT;
+            cell.VerticalAlignment = VerticalAlignment.Center;
+            cell.MergeRight = 2;
+            cell.Format.LeftIndent = 10;
+        }
+        private void AddValorTotalRecibo(Cell cell, decimal totalRecibo)
+        {
+            cell.AddParagraph($"+{totalRecibo} {SIMBOLO_MOEDA}");
+            cell.Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 14, Color = ColorsHelper.BLACK };
+            cell.Shading.Color = ColorsHelper.WHITE;
+            cell.VerticalAlignment = VerticalAlignment.Center;
+        }
+        private void AddEspacoEmBranco(Table table)
+        {
+            var row = table.AddRow();
+            row.Height = 30;
+            row.Borders.Visible = false;
         }
         private byte[] RenderDocuments(Document document)
         {
