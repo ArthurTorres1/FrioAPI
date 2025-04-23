@@ -124,6 +124,15 @@ namespace FrioAPI.Domain.Reports {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total recibos em.
+        /// </summary>
+        public static string TOTAL_RECIBOS_EM {
+            get {
+                return ResourceManager.GetString("TOTAL_RECIBOS_EM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UF.
         /// </summary>
         public static string UF {
