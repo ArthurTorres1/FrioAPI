@@ -138,6 +138,9 @@
   <data name="TOTAL" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="TOTAL_RECIBOS_EM" xml:space="preserve">
+    <value>Total recibos em</value>
+  </data>
   <data name="UF" xml:space="preserve">
     <value>UF</value>
   </data>

@@ -34,4 +34,13 @@
     <ProjectReference Include="..\FrioAPI.Exception\FrioAPI.Exception.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Logo\avatar_120x120.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Logo\avatar_64x64.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
