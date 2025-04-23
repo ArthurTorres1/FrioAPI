@@ -1,9 +1,11 @@
 ﻿
+using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Colors;
 using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Fonts;
 using FrioAPI.Domain.Entities;
 using FrioAPI.Domain.Reports;
 using FrioAPI.Domain.Repositories.Recibos;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
 using System.Reflection;
@@ -34,6 +36,28 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
             var totalRecibosMensal = recibos.Sum(recibo => recibo.Total);
             CreateTotalRecibos(page, mes, totalRecibosMensal);
 
+            foreach(var recibo in recibos)
+            {
+                var table = CreateRecibosTable(page);
+
+                var row = table.AddRow();
+                row.Height = 25;
+                row.Cells[0].AddParagraph(recibo.NomeCliente);
+                row.Cells[0].Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.BLACK };
+                row.Cells[0].Shading.Color = ColorsHelper.ORANGE_LIGHT;
+                row.Cells[0].VerticalAlignment = VerticalAlignment.Center;
+                row.Cells[0].MergeRight = 2;
+                row.Cells[0].Format.LeftIndent = 20;
+
+                row.Cells[3].AddParagraph(ResourceReportGenerationMessages.TOTAL);
+                row.Cells[3].Format.Font = new Font { Name = FontHelper.RALEWAY_BLACK, Size = 14, Color = ColorsHelper.WHITE };
+                row.Cells[3].Shading.Color = ColorsHelper.ORANGE_DARK;
+                row.Cells[3].VerticalAlignment = VerticalAlignment.Center;
+
+                row = table.AddRow();
+                row.Height = 30;
+                row.Borders.Visible = false;
+            }
 
 
             return RenderDocuments(document);
@@ -62,17 +86,6 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
             pagina.PageSetup.BottomMargin = 80;
 
             return pagina;
-        }
-        private byte[] RenderDocuments(Document document)
-        {
-            var renderer = new PdfDocumentRenderer { Document = document };
-
-            renderer.RenderDocument();
-
-            using var arquivo = new MemoryStream();
-            renderer.PdfDocument.Save(arquivo);
-
-            return arquivo.ToArray();
         }
         private void CreateHeaderWithProfileAndName(Section page)
         {
@@ -104,5 +117,26 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
 
             paragraph.AddFormattedText($"{totalRecibosMensal} {SIMBOLO_MOEDA}", new Font { Name = FontHelper.WORKSANS_BLACK, Size = 50 });
         }
+        private Table CreateRecibosTable(Section page)
+        {
+            var table = page.AddTable();
+            table.AddColumn("195").Format.Alignment = ParagraphAlignment.Left;
+            table.AddColumn("80").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn("120").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn("120").Format.Alignment = ParagraphAlignment.Right;
+            return table;
+        }
+        private byte[] RenderDocuments(Document document)
+        {
+            var renderer = new PdfDocumentRenderer { Document = document };
+
+            renderer.RenderDocument();
+
+            using var arquivo = new MemoryStream();
+            renderer.PdfDocument.Save(arquivo);
+
+            return arquivo.ToArray();
+        }
+
     }
 }
