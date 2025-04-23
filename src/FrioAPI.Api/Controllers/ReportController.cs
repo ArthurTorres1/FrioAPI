@@ -32,7 +32,7 @@ namespace FrioAPI.Api.Controllers
             [FromServices] IGenerateRecibosReportPdfUseCase useCase,
             [FromQuery] DateOnly mes)
         {
-            byte[] arquivo = await useCase.Execute(mes);
+            byte[] arquivo = await useCase.RelatorioMensalRecibosPdf(mes);
 
             if (arquivo.Length > 0)
                 return File(arquivo, MediaTypeNames.Application.Pdf, $"recibos-{mes:Y}.pdf");

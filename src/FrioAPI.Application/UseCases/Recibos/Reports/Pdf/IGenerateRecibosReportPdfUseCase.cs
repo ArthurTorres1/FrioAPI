@@ -2,6 +2,6 @@
 {
     public interface IGenerateRecibosReportPdfUseCase
     {
-        Task<byte[]> Execute(DateOnly mes);
+        Task<byte[]> RelatorioMensalRecibosPdf(DateOnly mes);
     }
 }
