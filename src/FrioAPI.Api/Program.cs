@@ -3,6 +3,8 @@ using FrioAPI.Application;
 using FrioAPI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -19,9 +21,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
-//Injeção de dependencias
+// Injeção de dependências
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
 var app = builder.Build();
 
 app.UseCors("AllowAll");
@@ -30,14 +33,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection(); // HTTPS ativo apenas no ambiente de desenvolvimento
 }
-
 else
 {
-    app.UseHttpsRedirection();
+    // Desabilitar HTTPS para ambientes Docker/produção
+    app.Urls.Add("http://0.0.0.0:5000"); // Aceita conexões HTTP
 }
-
-app.Urls.Add("https://0.0.0.0:5001"); // Aceita conexões HTTPS de qualquer host
 
 app.UseAuthorization();
 
