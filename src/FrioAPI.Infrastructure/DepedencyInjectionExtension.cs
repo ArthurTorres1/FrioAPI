@@ -25,12 +25,10 @@ namespace FrioAPI.Infrastructure
         }
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("Connection-dev");
+            var connectionString = configuration.GetConnectionString("Connection-prod");
 
-            var version = new Version(8, 0, 41);
-            var serverVersion = new MySqlServerVersion(version);
-
-            services.AddDbContext<FrioApiDBContext>(config => config.UseMySql(connectionString, serverVersion));
+            services.AddDbContext<FrioApiDBContext>(options =>
+                options.UseSqlServer(connectionString));
         }
 
     }
