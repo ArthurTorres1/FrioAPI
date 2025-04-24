@@ -37,6 +37,8 @@ else
     app.UseHttpsRedirection();
 }
 
+app.Urls.Add("https://0.0.0.0:5001"); // Aceita conexões HTTPS de qualquer host
+
 app.UseAuthorization();
 
 app.MapControllers();
