@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using FrioAPI.Application.UseCases.Recibos.Reports.Pdf;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
 using FrioAPI.Domain.Entities;
@@ -15,18 +16,21 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
         private readonly IRecibosWriteOnlyRepository _recibosRepository;
         private readonly IUnidadeDeTrabalho _unidadeDeTrabalho;
         private readonly IMapper _mapper;
+        private readonly IGenerateRecibosReportPdfUseCase _pdfRecibo;
 
         public RegisterReciboUseCase(
             IRecibosWriteOnlyRepository repository,
             IUnidadeDeTrabalho unidadeDeTrabalho,
-            IMapper mapper
+            IMapper mapper,
+            IGenerateRecibosReportPdfUseCase pdfRecibo
             )
         {
             _recibosRepository = repository;
             _unidadeDeTrabalho = unidadeDeTrabalho;
             _mapper = mapper;
+            _pdfRecibo = pdfRecibo;
         }
-        public async Task<ResponseRegisteredReciboJson> Execute(RequestReciboJson request) 
+        public async Task<byte[]> Execute(RequestReciboJson request) 
         {
             Validate(request);
 
@@ -35,7 +39,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Register
             await _recibosRepository.Add(entity);
             await _unidadeDeTrabalho.Commit();
 
-            return _mapper.Map<ResponseRegisteredReciboJson>(entity);
+            return await _pdfRecibo.ReciboClientePdf(entity);
         }
 
         private void Validate(RequestReciboJson request) 

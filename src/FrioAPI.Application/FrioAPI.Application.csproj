@@ -35,10 +35,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Logo\avatar_120x120.png">
+    <None Update="FotosRelatorios\avatar_120x120.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Logo\avatar_64x64.png">
+    <None Update="FotosRelatorios\avatar_64x64.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FotosRelatorios\card.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FotosRelatorios\money.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FotosRelatorios\pix.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

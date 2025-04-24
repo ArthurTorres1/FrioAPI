@@ -1,8 +1,10 @@
 ﻿using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Colors;
 using FrioAPI.Application.UseCases.Recibos.Reports.Pdf.Fonts;
+using FrioAPI.Domain.Entities;
 using FrioAPI.Domain.Reports;
 using FrioAPI.Domain.Repositories.Recibos;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
@@ -19,6 +21,55 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
         {
             _repository = repository;
             GlobalFontSettings.FontResolver = new RecibosReportFontResolver();
+        }
+
+        public async Task<byte[]> ReciboClientePdf(Recibo recibo)
+        {
+            //convertendo dateTime para dateOnly
+            DateOnly mes = DateOnly.FromDateTime(recibo.Data);
+            var document = CreateDocument(mes);
+            var page = CreatePage(document);
+
+            CreateCabecalhoComFotoENome(page);
+            
+            var table = CreateRecibosTable(page);
+
+            var row = table.AddRow();
+            row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+            AddNomeClienteRecibo(row.Cells[0], recibo.NomeCliente);
+            AddCabecalhoParaTotal(row.Cells[3]);
+
+            row = table.AddRow();
+            row.Height = HEIGHT_ROW_TABLE_RECIBOS;
+
+            row.Cells[0].AddParagraph($"{recibo.Data:ddd dd MMM yyyy}");
+            EstiloBaseParaInformacoesRecibo(row.Cells[0]);
+            row.Cells[0].Format.LeftIndent = 10;
+
+            row.Cells[1].AddParagraph($"{recibo.Data:t}");
+            EstiloBaseParaInformacoesRecibo(row.Cells[1]);
+
+            row.Cells[2].AddParagraph(recibo.Equipamento);
+            EstiloBaseParaInformacoesRecibo(row.Cells[2]);
+
+            AddValorTotalRecibo(row.Cells[3], recibo.Total);
+
+            var descAndEndrow = table.AddRow();
+            descAndEndrow.Height = HEIGHT_ROW_TABLE_RECIBOS;
+            EstiloBaseParaDescricaoEEndereco(descAndEndrow.Cells[0], "Endereço: ", $"{recibo.Bairro}, {recibo.Logradouro} - {recibo.Cidade}-{recibo.UF}");
+
+            descAndEndrow = table.AddRow();
+            descAndEndrow.Height = HEIGHT_ROW_TABLE_RECIBOS;
+            EstiloBaseParaDescricaoEEndereco(descAndEndrow.Cells[0], "Descrição: ", recibo.DescricaoServico);
+
+            row.Cells[3].MergeDown = 2;
+
+            AddEspacoEmBranco(table);
+
+            CreateMetodosPagamento(page);
+
+            return RenderDocuments(document);
+            
         }
 
         public async Task<byte[]> RelatorioMensalRecibosPdf(DateOnly mes)
@@ -59,13 +110,15 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
 
                 AddValorTotalRecibo(row.Cells[3], recibo.Total);
 
-                row = table.AddRow();
-                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
-                EstiloBaseParaDescricaoEEndereco(row.Cells[0], "Endereço: ", $"{recibo.Bairro}, {recibo.Logradouro} - {recibo.Cidade}-{recibo.UF}");
+                var descAndEndrow = table.AddRow();
+                descAndEndrow.Height = HEIGHT_ROW_TABLE_RECIBOS;
+                EstiloBaseParaDescricaoEEndereco(descAndEndrow.Cells[0], "Endereço: ", $"{recibo.Bairro}, {recibo.Logradouro} - {recibo.Cidade}-{recibo.UF}");
 
-                row = table.AddRow();
-                row.Height = HEIGHT_ROW_TABLE_RECIBOS;
-                EstiloBaseParaDescricaoEEndereco(row.Cells[0], "Descrição: ", recibo.DescricaoServico);
+                descAndEndrow = table.AddRow();
+                descAndEndrow.Height = HEIGHT_ROW_TABLE_RECIBOS;
+                EstiloBaseParaDescricaoEEndereco(descAndEndrow.Cells[0], "Descrição: ", recibo.DescricaoServico);
+
+                row.Cells[3].MergeDown = 2;
 
                 AddEspacoEmBranco(table);
             }
@@ -106,7 +159,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
 
             var assembly = Assembly.GetExecutingAssembly();
             var directoryName = Path.GetDirectoryName(assembly.Location);
-            var pathFile = Path.Combine(directoryName!, "Logo", "avatar_120x120.png");
+            var pathFile = Path.Combine(directoryName!, "Fotos", "avatar_120x120.png");
 
             row.Cells[0].AddImage(pathFile);
             row.Cells[1].AddParagraph("Assistência técnica especializada");
@@ -168,7 +221,7 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
 
             paragraph.AddText(txtRegular);
 
-            cell.Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 12, Color = ColorsHelper.BLACK };
+            cell.Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 10, Color = ColorsHelper.BLACK };
             cell.Shading.Color = ColorsHelper.BLUE_LIGHT;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.MergeRight = 2;
@@ -186,6 +239,47 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
             var row = table.AddRow();
             row.Height = 30;
             row.Borders.Visible = false;
+        }
+
+        private void CreateMetodosPagamento(Section page)
+        {
+            var table = page.AddTable();
+            table.AddColumn().Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn("100").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn().Format.Alignment = ParagraphAlignment.Center;
+
+            var row = table.AddRow();
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var directoryName = Path.GetDirectoryName(assembly.Location);
+
+            var pixImage = Path.Combine(directoryName!, "FotosRelatorios", "pix.png");
+            var cardsImage = Path.Combine(directoryName!, "FotosRelatorios", "card.png");
+            var moneyImage = Path.Combine(directoryName!, "FotosRelatorios", "money.png");
+
+            var paragraph1 = row.Cells[0].AddParagraph();
+            paragraph1.Format.Alignment = ParagraphAlignment.Center;
+            paragraph1.AddImage(pixImage);
+
+            var paragraph2 = row.Cells[1].AddParagraph();
+            paragraph2.Format.Alignment = ParagraphAlignment.Center;
+            paragraph2.AddImage(cardsImage);
+
+            var paragraph3 = row.Cells[2].AddParagraph();
+            paragraph3.Format.Alignment = ParagraphAlignment.Center;
+            paragraph3.AddImage(moneyImage);
+
+            row.Cells[0].AddParagraph("11978570524");
+            row.Cells[0].Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 8 };
+
+            row.Cells[1].AddParagraph("Cartão de Crédito/Débito");
+            row.Cells[1].Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 8 };
+
+            row.Cells[2].AddParagraph("Dinheiro");
+            row.Cells[2].Format.Font = new Font { Name = FontHelper.WORKSANS_REGULAR, Size = 8 };
+
+
+
         }
         private byte[] RenderDocuments(Document document)
         {

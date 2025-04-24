@@ -6,6 +6,7 @@ using FrioAPI.Application.UseCases.Recibos.Update;
 using FrioAPI.Communication.Requests;
 using FrioAPI.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace FrioAPI.Api.Controllers
 {
@@ -20,10 +21,8 @@ namespace FrioAPI.Api.Controllers
             [FromServices] IRegisterReciboUseCase useCase,
             [FromBody] RequestReciboJson request)
         {
-            var response = await useCase.Execute(request);
-
-            return Created(string.Empty, response);
-
+             byte[] arquivo = await useCase.Execute(request);
+             return File(arquivo, MediaTypeNames.Application.Pdf, $"recibo-{request.NomeCliente}.pdf");
         }
 
         [HttpGet]
