@@ -19,7 +19,7 @@ Bem-vindo à API **FrioAPI**! Esta aplicação foi desenvolvida com **DDD (Domai
 - Arquitetura robusta baseada em **DDD** e **SOLID**.
 
 ## 🎨 Visual do Projeto
- ![hero-images]
+ ![image](https://github.com/user-attachments/assets/9727aecc-3e28-40a8-b4d6-6ae2f7025230)
 
 
 ## 📖 Como Usar
@@ -27,9 +27,6 @@ Bem-vindo à API **FrioAPI**! Esta aplicação foi desenvolvida com **DDD (Domai
 ### 📥 Clonar o Repositório
 1. Clone o repositório: 
     ```sh
-    git clone https://github.com/ArthurTorres1/CashFlow.git
+    git clone https://github.com/ArthurTorres1/FrioAPI.git
     ```
 2. Preencha as informações `appsettings.Development.json`;
-3. 
-<!-- Images  -->
-[hero-images]: imagem/image.png
