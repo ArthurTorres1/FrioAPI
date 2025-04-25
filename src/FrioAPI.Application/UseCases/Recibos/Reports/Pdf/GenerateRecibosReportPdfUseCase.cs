@@ -8,6 +8,7 @@ using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Fonts;
+using System.Globalization;
 using System.Reflection;
 
 namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
@@ -42,7 +43,9 @@ namespace FrioAPI.Application.UseCases.Recibos.Reports.Pdf
             row = table.AddRow();
             row.Height = HEIGHT_ROW_TABLE_RECIBOS;
 
-            row.Cells[0].AddParagraph($"{recibo.Data:ddd dd MMM yyyy}");
+            var cultura = new CultureInfo("pt-BR");
+            row.Cells[0].AddParagraph($"{recibo.Data.ToString("ddd dd MMM yyyy", cultura)}");
+
             EstiloBaseParaInformacoesRecibo(row.Cells[0]);
             row.Cells[0].Format.LeftIndent = 10;
 
