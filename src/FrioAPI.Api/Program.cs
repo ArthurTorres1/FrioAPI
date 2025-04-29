@@ -1,5 +1,6 @@
 using FrioAPI.Api.Filters;
 using FrioAPI.Application;
+using FrioAPI.Application.UseCases.ViaCep;
 using FrioAPI.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)))
 // Injeção de dependências
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddHttpClient<IBuscaEnderecoViaCep, BuscaEnderecoViaCep>();
 
 var app = builder.Build();
 
