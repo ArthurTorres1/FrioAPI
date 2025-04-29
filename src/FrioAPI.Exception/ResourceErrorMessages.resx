@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CEP_NAO_ENCONTRADO" xml:space="preserve">
+    <value>O CEP não foi encontrado.</value>
+  </data>
   <data name="CIDADE_OBRIGATORIO" xml:space="preserve">
     <value>O campo (Cidade) é obrigatório.</value>
   </data>
