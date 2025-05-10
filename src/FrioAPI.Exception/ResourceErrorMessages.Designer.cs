@@ -61,6 +61,15 @@ namespace FrioAPI.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to O CEP não foi encontrado..
+        /// </summary>
+        public static string CEP_NAO_ENCONTRADO {
+            get {
+                return ResourceManager.GetString("CEP_NAO_ENCONTRADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O campo (Cidade) é obrigatório..
         /// </summary>
         public static string CIDADE_OBRIGATORIO {

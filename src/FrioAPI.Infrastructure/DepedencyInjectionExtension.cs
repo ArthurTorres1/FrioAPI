@@ -25,7 +25,14 @@ namespace FrioAPI.Infrastructure
         }
         private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("Connection-prod");
+            // Busca a connection string da variável de ambiente configurada no Render
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_PROD")
+                                   ?? configuration.GetConnectionString("Connection-dev");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("A Connection String não foi configurada.");
+            }
 
             services.AddDbContext<FrioApiDBContext>(options =>
                 options.UseSqlServer(connectionString));
